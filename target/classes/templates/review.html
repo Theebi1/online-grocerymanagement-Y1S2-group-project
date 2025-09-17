@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>review</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --green-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --orange-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --purple-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --blue-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --teal-gradient: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+            --sunset-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+
+            --white: #ffffff;
+            --black: #2c3e50;
+            --light-gray: #f8f9fa;
+            --dark-gray: #34495e;
+            --text-light: #7f8c8d;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--light-gray);
+        }
+
+        /* Enhanced Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 5%;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--green-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .header .logo i {
+            background: var(--green-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding-right: 0.5rem;
+        }
+
+        .header .navbar a {
+            font-size: 1.1rem;
+            color: var(--black);
+            margin: 0 1.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .header .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--green-gradient);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .header .navbar a:hover::after {
+            width: 100%;
+        }
+
+        /* Modern Hero Heading Section */
+        .heading {
+            background: var(--primary-gradient);
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .heading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: backgroundMove 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .heading h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            animation: slideInUp 0.8s ease;
+        }
+
+        .heading p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 2;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+
+        .heading p a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .heading p a:hover {
+            color: white;
+        }
+
+        /* Enhanced Info Container */
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--white);
+        }
+
+        .info-container .info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2.5rem;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .info-container .info:nth-child(1) { animation-delay: 0.1s; }
+        .info-container .info:nth-child(2) { animation-delay: 0.3s; }
+        .info-container .info:nth-child(3) { animation-delay: 0.5s; }
+
+        .info-container .info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .info-container .info:hover::before {
+            left: 100%;
+        }
+
+        .info-container .info:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .info-container .info img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .info-container .info:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .info-container .info .content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .info-container .info .content span {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Add unique gradient accents */
+        .info-container .info:nth-child(1)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--green-gradient);
+        }
+
+        .info-container .info:nth-child(2)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+
+        .info-container .info:nth-child(3)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--orange-gradient);
+        }
+
+        /* Modern Review Section */
+        .review {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .review .box {
+            background: var(--white);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .review .box:nth-child(1) { animation-delay: 0.1s; }
+        .review .box:nth-child(2) { animation-delay: 0.2s; }
+        .review .box:nth-child(3) { animation-delay: 0.3s; }
+        .review .box:nth-child(4) { animation-delay: 0.4s; }
+        .review .box:nth-child(5) { animation-delay: 0.5s; }
+        .review .box:nth-child(6) { animation-delay: 0.6s; }
+
+        .review .box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        .review .box:hover::before {
+            transform: scale(1);
+        }
+
+        .review .box:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .review .box .user {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .review .box .user img {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid transparent;
+            background: var(--green-gradient);
+            padding: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .review .box:hover .user img {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .review .box .user .info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.3rem;
+        }
+
+        .review .box .user .info span {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--green-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .review .box p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .review .box p::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+            font-family: serif;
+        }
+
+        .review .box p::after {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: -2rem;
+            right: -1rem;
+            font-family: serif;
+        }
+
+        /* Add star ratings */
+        .review .box .user::after {
+            content: '★★★★★';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 95px;
+            color: #ffd700;
+            font-size: 1rem;
+        }
+
+        /* Unique gradient borders for each review */
+        .review .box:nth-child(1)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--secondary-gradient);
+        }
+
+        .review .box:nth-child(2)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+
+        .review .box:nth-child(3)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--orange-gradient);
+        }
+
+        .review .box:nth-child(4)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--purple-gradient);
+        }
+
+        .review .box:nth-child(5)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--teal-gradient);
+        }
+
+        .review .box:nth-child(6)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-gradient);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .info-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+                padding: 4rem 1.5rem;
+            }
+
+            .review {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 1.5rem;
+                padding: 4rem 1.5rem;
+            }
+
+            .heading h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 3%;
+            }
+
+            .info-container {
+                grid-template-columns: 1fr;
+                padding: 3rem 1rem;
+            }
+
+            .info-container .info {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 2rem;
+            }
+
+            .review {
+                grid-template-columns: 1fr;
+                padding: 3rem 1rem;
+            }
+
+            .review .box {
+                padding: 2rem 1.5rem;
+            }
+
+            .heading {
+                min-height: 30vh;
+                margin-top: 70px;
+            }
+
+            .heading h1 {
+                font-size: 2.8rem;
+            }
+
+            .heading p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .review .box .user {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .review .box .user::after {
+                position: static;
+                margin-top: 0.5rem;
+            }
+
+            .info-container .info .content h3 {
+                font-size: 1.5rem;
+            }
+
+            .review .box .user .info h3 {
+                font-size: 1.5rem;
+            }
+
+            .heading h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Loading states */
+        .info-container .info,
+        .review .box {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Add floating animation for review boxes */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .review .box:hover {
+            animation: float 2s ease-in-out infinite;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- header section -->
+<div th:replace="layout/header :: header"></div>
+
+<div class="heading">
+    <h1>client's review</h1>
+    <p> <a href="/static">home >></a> review </p>
+</div>
+
+<section class="info-container">
+
+    <div class="info">
+        <img src="/image/icon-1.png" alt="Fast Delivery Icon">
+        <div class="content">
+            <h3>fast delivery</h3>
+            <span>within 30 minutes</span>
+        </div>
+    </div>
+
+    <div class="info">
+        <img src="/image/icon-2.png" alt="24/7 Available Icon">
+        <div class="content">
+            <h3>24 / 7 available</h3>
+            <span>call us anytime</span>
+        </div>
+    </div>
+
+    <div class="info">
+        <img src="/image/icon-3.png" alt="Easy Payments Icon">
+        <div class="content">
+            <h3>easy payments</h3>
+            <span>cash or credits</span>
+        </div>
+    </div>
+
+</section>
+
+<section class="review">
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-1.png" alt="Emily Carter">
+            <div class="info">
+                <h3>Emily Carter</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>FreshMart has completely changed the way I shop for groceries. Everything is fresh, neatly packed, and always delivered on time. The organic selection is fantastic and the customer service is outstanding. Highly recommended!</p>
+    </div>
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-2.png" alt="David Kim">
+            <div class="info">
+                <h3>David Kim</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>Great prices and a wide selection of organic products. I especially love the quick delivery service and easy-to-use website interface. The quality is consistently excellent and the packaging is eco-friendly.</p>
+    </div>
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-3.png" alt="Sarah Lee">
+            <div class="info">
+                <h3>Sarah Lee</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>The quality of fruits and vegetables is outstanding. I've been a regular customer for months now and have never been disappointed. Everything arrives fresh and the variety is impressive for an online store.</p>
+    </div>
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-4.png" alt="Michael Brown">
+            <div class="info">
+                <h3>Michael Brown</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>I appreciate their commitment to sustainability and eco-friendly packaging. It's rare to find a store that cares so much about the environment while maintaining such high quality products and service.</p>
+    </div>
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-5.png" alt="Anna Singh">
+            <div class="info">
+                <h3>Anna Singh</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>Customer service is excellent! They're quick to respond and resolve any issues. FreshMart truly values its customers and it shows in every interaction. The mobile app is also very user-friendly.</p>
+    </div>
+
+    <div class="box">
+        <div class="user">
+            <img src="/image/pic-6.png" alt="James Wilson">
+            <div class="info">
+                <h3>James Wilson</h3>
+                <span>happy client</span>
+            </div>
+        </div>
+        <p>The convenience of ordering groceries online from FreshMart has saved me so much time. It's my go-to store for weekly shopping now. The delivery tracking feature is particularly helpful and reliable.</p>
+    </div>
+
+</section>
+
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+
+<!-- custom css file link  -->
+<script src="js/script.js"></script>
+
+</body>
+</html>

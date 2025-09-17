@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order History - Grocery Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <!-- font awesome cdn link  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #bac34e;
+      --secondary-color: #f6f6f6;
+      --accent-color: #5c801a;
+      --text-dark: #2d2d2d;
+      --text-light: #6b7280;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      text-transform: capitalize;
+      -webkit-transition: .2s linear;
+      transition: .2s linear;
+    }
+
+    html {
+      font-size: 62.5%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: var(--secondary-color);
+      color: #333;
+    }
+    .container{
+      margin-top:100px;
+    }
+
+    .site-body {
+      background: linear-gradient(to bottom, var(--secondary-color), #ffffff);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    .order-container {
+      margin-top: 12rem;
+      padding: 3rem 2rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .order-title {
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-link {
+      display: inline-block;
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard-link:hover {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+
+    .order-table-wrapper {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.5rem;
+    }
+
+    .table-header {
+      background: var(--secondary-color);
+      color: var(--text-dark);
+    }
+
+    .table-header-cell {
+      padding: 1.5rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .table-row {
+      border-bottom: 1px solid var(--text-light);
+      transition: background-color 0.3s ease;
+    }
+
+    .table-row:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .table-cell {
+      padding: 1.5rem;
+      vertical-align: top;
+    }
+
+    .order-items-list {
+      list-style: none;
+      padding: 0;
+      font-size: 1.4rem;
+      color: var(--text-dark);
+    }
+
+    .order-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .order-total {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .cancel-button {
+      background: #dc2626;
+      color: var(--white);
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.5rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .cancel-button:hover {
+      background: #b91c1c;
+    }
+
+    .no-action {
+      font-size: 1.4rem;
+      color: var(--text-light);
+    }
+
+    .empty-message {
+      font-size: 1.6rem;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .site-html {
+        font-size: 55%;
+      }
+
+      .order-container {
+        margin-top: 10rem;
+        padding: 2rem 1rem;
+      }
+
+      .order-title {
+        font-size: 2.8rem;
+      }
+
+      .table-header-cell,
+      .table-cell {
+        padding: 1rem;
+      }
+
+      .order-table {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .order-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .table-header,
+      .table-row {
+        min-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body class="site-body">
+<div th:replace="layout/header :: header"></div>
+
+<div class="order-container">
+  <h2 class="order-title">Order History</h2>
+  <a href="/customer/dashboard" class="dashboard-link">Back to Dashboard</a>
+  <div class="order-table-wrapper">
+    <table class="order-table">
+      <thead>
+      <tr class="table-header">
+        <th class="table-header-cell">Order ID</th>
+        <th class="table-header-cell">Date</th>
+        <th class="table-header-cell">Shipping Address</th>
+        <th class="table-header-cell">Status</th>
+        <th class="table-header-cell">Items</th>
+        <th class="table-header-cell">Total</th>
+        <th class="table-header-cell">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="order : ${orders}" class="table-row" th:data-order-id="${order.orderId}">
+        <td class="table-cell" th:text="${order.orderId}"></td>
+        <td class="table-cell" th:text="${#temporals.format(order.date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td class="table-cell" th:text="${order.shippingAddress}"></td>
+        <td class="table-cell" th:text="${order.status}"></td>
+        <td class="table-cell">
+          <ul class="order-items-list">
+            <li th:each="item : ${orderService.getOrderItems(order.orderId)}"
+                th:data-price="${item.price}"
+                th:data-qty="${item.quantity}"
+                class="order-item">
+              <span th:text="${orderService.getProductById(item.productId).name} + ' (Qty: ' + ${item.quantity} + ', $' + ${#numbers.formatDecimal(item.price, 1, 2)} + ')'"></span>
+            </li>
+          </ul>
+        </td>
+        <td class="table-cell">
+          <p class="order-total">Total: $<span th:id="'total-amount-' + ${order.orderId}" class="total-amount">0.00</span></p>
+        </td>
+        <td class="table-cell">
+          <form th:if="${order.status == 'PENDING'}" action="/cancelOrder" method="post" class="inline">
+            <input type="hidden" name="orderId" th:value="${order.orderId}">
+            <button type="submit" class="cancel-button">Cancel</button>
+          </form>
+          <span th:unless="${order.status == 'PENDING'}" class="no-action">No actions available</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div th:if="${orders.isEmpty()}" class="empty-message">No orders found.</div>
+  </div>
+</div>
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Calculate total for each order row
+    const orderRows = document.querySelectorAll(".table-row[data-order-id]");
+
+    orderRows.forEach(row => {
+      const orderId = row.dataset.orderId;
+      const items = row.querySelectorAll(".order-items-list .order-item");
+      let total = 0;
+
+      items.forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.dataset.qty);
+        total += price * qty;
+      });
+
+      // Update the total for this specific order
+      const totalElement = document.getElementById(`total-amount-${orderId}`);
+      if (totalElement) {
+        totalElement.textContent = total.toFixed(2);
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shop</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <style>
+        /* Enhanced Category Section Styles */
+        .category {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            border-radius: 2px;
+        }
+
+        .title span {
+            color: #27ae60;
+            position: relative;
+        }
+
+        .title a {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .title a:hover {
+            color: #27ae60;
+        }
+
+        .box-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boxs {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .boxs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .boxs:hover::before {
+            left: 100%;
+        }
+
+        .boxs:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #27ae60;
+        }
+
+        .boxs:nth-child(1):hover { border-color: #e74c3c; }
+        .boxs:nth-child(2):hover { border-color: #27ae60; }
+        .boxs:nth-child(3):hover { border-color: #f39c12; }
+        .boxs:nth-child(4):hover { border-color: #c0392b; }
+        .boxs:nth-child(5):hover { border-color: #d4a574; }
+
+        .boxs img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+            border: 4px solid #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .boxs:hover img {
+            transform: rotate(360deg) scale(1.1);
+            border-color: currentColor;
+        }
+
+        .boxs h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: capitalize;
+            margin: 0;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .boxs:nth-child(1):hover h3 { color: #e74c3c; }
+        .boxs:nth-child(2):hover h3 { color: #27ae60; }
+        .boxs:nth-child(3):hover h3 { color: #f39c12; }
+        .boxs:nth-child(4):hover h3 { color: #c0392b; }
+        .boxs:nth-child(5):hover h3 { color: #d4a574; }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .box-container {
+                gap: 1.5rem;
+            }
+            .boxs {
+                min-width: 180px;
+                max-width: 220px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .box-container {
+                gap: 1rem;
+            }
+            .boxs {
+                min-width: 160px;
+                max-width: 200px;
+                padding: 1.5rem 1rem;
+            }
+            .title h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category {
+                padding: 3rem 1rem;
+            }
+            .box-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .boxs{
+                min-width: 250px;
+                max-width: 300px;
+            }
+            .title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .boxs {
+                min-width: 200px;
+                max-width: 250px;
+            }
+        }
+
+        /* Heading Section */
+        .heading {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 3rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .heading h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .heading p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .heading a {
+            color: #27ae60;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .heading a:hover {
+            color: #2ecc71;
+        }
+
+        /* Animation for page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .boxs{
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .boxs:nth-child(1) { animation-delay: 0.1s; }
+        .boxs:nth-child(2) { animation-delay: 0.2s; }
+        .boxs:nth-child(3) { animation-delay: 0.3s; }
+        .boxs:nth-child(4) { animation-delay: 0.4s; }
+        .boxs:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+
+</head>
+<body>
+
+<!-- header section -->
+<div th:replace="layout/header :: header"></div>
+
+<div class="heading">
+    <h1>our shop</h1>
+    <p> <a href="/">home >></a> shop </p>
+</div>
+
+<section class="category">
+
+    <div class="title">
+        <h1>our <span>category</span></h1>
+        <a href="#">view all >></a>
+    </div>
+
+    <div class="box-container">
+
+        <a th:href="@{/products(category='Fresh Fruits')}" class="boxs">
+            <img src="/image/cat-1.png" alt="Fresh Fruits">
+            <h3>fresh fruits</h3>
+        </a>
+
+        <a th:href="@{/products(category='Vegetables')}" class="boxs">
+            <img src="/image/cat-2.png" alt="Vegetables">
+            <h3>vegetables</h3>
+        </a>
+
+        <a th:href="@{/products(category='Organic Spices')}" class="boxs">
+            <img src="/image/cat-3.png" alt="Organic Spices">
+            <h3>organic spices</h3>
+        </a>
+
+        <a th:href="@{/products(category='Fresh Meat')}" class="boxs">
+            <img src="/image/cat-4.png" alt="Fresh Meat">
+            <h3>fresh meat</h3>
+        </a>
+
+        <a th:href="@{/products(category='Organic Wheat')}" class="boxs">
+            <img src="/image/cat-5.png" alt="Organic Wheat">
+            <h3>organic wheat</h3>
+        </a>
+
+    </div>
+
+</section>
+
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

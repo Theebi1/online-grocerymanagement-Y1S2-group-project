@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard - Grocery Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <style>
+        :root {
+            --primary-color: #bac34e;
+            --secondary-color: #f6f6f6;
+            --accent-color: #5c801a;
+            --text-dark: #2d2d2d;
+            --text-light: #6b7280;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+        }
+
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            text-transform: capitalize;
+            -webkit-transition: .2s linear;
+            transition: .2s linear;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #e8f2e8 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard {
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+            margin-top: 90px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        }
+
+        .welcome-section {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .welcome-section h1 {
+            font-size: 3.4rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .welcome-section h1 span {
+            color: var(--accent-color);
+            position: relative;
+        }
+
+        .welcome-section h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .welcome-section p {
+            font-size: 1.6rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(186, 195, 78, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(186, 195, 78, 0.02) 0%, rgba(92, 128, 26, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(186, 195, 78, 0.3);
+        }
+
+        .stat-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .stat-number {
+            font-size: 3.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.4rem;
+            opacity: 0.1;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            opacity: 0.2;
+            transform: scale(1.1);
+        }
+
+        /* Different colors for different stat cards */
+        .stat-card:nth-child(1) {
+            border-left: 4px solid var(--info-color);
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            color: var(--info-color);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            color: var(--success-color);
+        }
+
+        .stat-card:nth-child(3) {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            color: var(--warning-color);
+        }
+
+        .quick-actions {
+            margin-top: 30px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(186, 195, 78, 0.1);
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 25px;
+            color: var(--accent-color);
+            font-size: 2.2rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .quick-actions h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 1.5px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            text-transform: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(92, 128, 26, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Alternative button styles */
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--info-color) 0%, #2563eb 100%);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+        }
+
+        .btn-warning:hover {
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Admin navigation enhancement */
+        .admin-nav {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(186, 195, 78, 0.1);
+        }
+
+        .admin-nav a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            background: rgba(186, 195, 78, 0.1);
+            color: var(--accent-color);
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+        }
+
+        .admin-nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .admin-nav a i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .dashboard {
+                margin-top: 80px;
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            .welcome-section h1 {
+                font-size: 2.8rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 14px 20px;
+                font-size: 1.3rem;
+            }
+
+            .stat-number {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .dashboard {
+                margin: 10px 0;
+                margin-top: 70px;
+                padding: 20px;
+            }
+
+            .welcome-section h1 {
+                font-size: 2.4rem;
+            }
+
+            .welcome-section p {
+                font-size: 1.4rem;
+            }
+
+            .quick-actions {
+                padding: 20px;
+            }
+
+            .admin-nav {
+                padding: 15px;
+            }
+
+            .admin-nav a {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+
+<div class="container">
+    <div class="dashboard">
+        <div class="welcome-section">
+            <h1>Welcome, <span th:text="${adminName}">Admin</span>!</h1>
+            <p>Here's your admin dashboard overview.</p>
+        </div>
+
+
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="actions-grid">
+                <a href="/admin/productManagement" class="btn">
+                    <i class="fas fa-plus"></i>
+                    Add New Product
+                </a>
+                <a href="/admin/userManagement" class="btn btn-secondary">
+                    <i class="fas fa-clock"></i>
+                    User Management
+                </a>
+                <a href="/admin/orderManagement" class="btn btn-warning">
+                    <i class="fas fa-chart-line"></i>
+                    Order Management
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+
+</body>
+</html>

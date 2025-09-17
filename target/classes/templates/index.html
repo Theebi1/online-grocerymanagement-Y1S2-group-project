@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --green-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --orange-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --purple-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+
+            --white: #ffffff;
+            --black: #2c3e50;
+            --light-gray: #ecf0f1;
+            --dark-gray: #34495e;
+            --text-light: #7f8c8d;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 5%;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--green-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .header .logo i {
+            background: var(--green-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding-right: 0.5rem;
+        }
+
+        .header .navbar a {
+            font-size: 1.1rem;
+            color: var(--black);
+            margin: 0 1.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .header .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--green-gradient);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .header .navbar a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section with Modern Design */
+        .home {
+            min-height: 100vh;
+            background: var(--primary-gradient);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 8rem;
+        }
+
+        .home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: backgroundMove 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .slides-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .slides-container .slide {
+            display: none;
+            align-items: center;
+            gap: 4rem;
+            min-height: 70vh;
+        }
+
+        .slides-container .slide.active {
+            display: flex;
+        }
+
+        .slides-container .slide .content {
+            flex: 1;
+            color: white;
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .slides-container .slide .content span {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .slides-container .slide .content h3 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btns {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--white);
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btns::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--green-gradient);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btns:hover::before {
+            left: 0;
+        }
+
+        .btns:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .slides-container .slide .image {
+            flex: 1;
+            text-align: center;
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        .slides-container .slide .image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .slides-container .slide .image:hover img {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        /* Modern Navigation Buttons */
+        #next-slide,
+        #prev-slide {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        #next-slide:hover,
+        #prev-slide:hover {
+            background: var(--white);
+            color: var(--black);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        #prev-slide {
+            left: 2rem;
+        }
+
+        #next-slide {
+            right: 2rem;
+        }
+
+        /* Enhanced Banner Section */
+        .banner-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--light-gray);
+        }
+
+        .banner {
+            position: relative;
+            height: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .banner:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.4), transparent);
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .banner:hover::before {
+            opacity: 0.7;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .banner:hover img {
+            transform: scale(1.1);
+        }
+
+        .banner .content {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 2;
+            color: white;
+        }
+
+        .banner .content span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner .content h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner .content .btns {
+            padding: 0.8rem 2rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--black);
+        }
+
+        .banner .content .btns:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Add unique gradients to each banner */
+        .banner:nth-child(1)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .banner:nth-child(1):hover::after {
+            opacity: 0.2;
+        }
+
+        .banner:nth-child(2)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .banner:nth-child(2):hover::after {
+            opacity: 0.2;
+        }
+
+        .banner:nth-child(3)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--orange-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .banner:nth-child(3):hover::after {
+            opacity: 0.2;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .banner {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .banner:nth-child(1) { animation-delay: 0.1s; }
+        .banner:nth-child(2) { animation-delay: 0.3s; }
+        .banner:nth-child(3) { animation-delay: 0.5s; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .slides-container .slide .content h3 {
+                font-size: 3.5rem;
+            }
+
+            .banner-container {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 1.5rem;
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 3%;
+            }
+
+            .home {
+                padding-top: 6rem;
+            }
+
+            .slides-container {
+                padding: 0 1rem;
+            }
+
+            .slides-container .slide {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .slides-container .slide .content h3 {
+                font-size: 2.8rem;
+            }
+
+            #next-slide,
+            #prev-slide {
+                bottom: 2rem;
+                top: auto;
+                transform: none;
+            }
+
+            #prev-slide {
+                left: auto;
+                right: 8rem;
+            }
+
+            .banner-container {
+                grid-template-columns: 1fr;
+                padding: 3rem 1rem;
+            }
+
+            .banner {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slides-container .slide .content h3 {
+                font-size: 2.2rem;
+            }
+
+            .slides-container .slide .content span {
+                font-size: 1rem;
+            }
+
+            .btns {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .banner {
+                height: 250px;
+            }
+
+            .banner .content h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Loading animation */
+        .slides-container .slide.active .content,
+        .slides-container .slide.active .image {
+            animation-play-state: running;
+        }
+
+        /* Add scroll reveal effect */
+        .banner-container {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="home">
+    <div class="slides-container">
+        <div class="slide active">
+            <div class="content">
+                <span>fresh and organic</span>
+                <h3>upto 50% off</h3>
+                <a href="#" class="btns">shop now</a>
+            </div>
+            <div class="image">
+                <img src="/image/home-img-1.png" alt="Fresh Organic Products">
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="content">
+                <span>fresh and organic</span>
+                <h3>upto 50% off</h3>
+                <a href="#" class="btns">shop now</a>
+            </div>
+            <div class="image">
+                <img src="/image/home-img-2.png" alt="Fresh Organic Products">
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="content">
+                <span>fresh and organic</span>
+                <h3>upto 50% off</h3>
+                <a href="#" class="btns">shop now</a>
+            </div>
+            <div class="image">
+                <img src="/image/home-img-3.png" alt="Fresh Organic Products">
+            </div>
+        </div>
+    </div>
+
+    <div id="next-slide" class="fas fa-angle-right" onclick="next()"></div>
+    <div id="prev-slide" class="fas fa-angle-left" onclick="prev()"></div>
+</section>
+
+<section class="banner-container">
+    <div class="banner">
+        <img src="/image/banner-1.jpg" alt="Limited Sales Banner">
+        <div class="content">
+            <span>limited sales</span>
+            <h3>upto 50% off</h3>
+            <a href="#" class="btns">shop now</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="/image/banner-2.jpg" alt="Limited Sales Banner">
+        <div class="content">
+            <span>limited sales</span>
+            <h3>upto 50% off</h3>
+            <a href="#" class="btns">shop now</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="/image/banner-3.jpg" alt="Limited Sales Banner">
+        <div class="content">
+            <span>limited sales</span>
+            <h3>upto 50% off</h3>
+            <a href="#" class="btns">shop now</a>
+        </div>
+    </div>
+</section>
+
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

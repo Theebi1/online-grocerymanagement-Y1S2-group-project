@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Grocery Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <!-- font awesome cdn link  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #bac34e;
+      --secondary-color: #f6f6f6;
+      --accent-color: #5c801a;
+      --text-dark: #2d2d2d;
+      --text-light: #6b7280;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      text-transform: capitalize;
+      -webkit-transition: .2s linear;
+      transition: .2s linear;
+    }
+
+    html {
+      font-size: 62.5%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: var(--secondary-color);
+      color: #333;
+    }
+    .container{
+      margin-top:100px;
+    }
+
+    .site-body {
+      background: linear-gradient(to bottom, var(--secondary-color), #ffffff);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    .cart-container {
+      margin-top: 12rem;
+      padding: 3rem 2rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cart-title {
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-link {
+      display: inline-block;
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard-link:hover {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+
+    .cart-table-wrapper {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.5rem;
+    }
+
+    .table-header {
+      background: var(--secondary-color);
+      color: var(--text-dark);
+    }
+
+    .table-header-cell {
+      padding: 1.5rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .table-row {
+      border-bottom: 1px solid var(--text-light);
+      transition: background-color 0.3s ease;
+    }
+
+    .table-row:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .table-cell {
+      padding: 1.5rem;
+      vertical-align: middle;
+    }
+
+    .empty-message {
+      font-size: 1.6rem;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .checkout-form {
+      margin-top: 3rem;
+    }
+
+    .address-label {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .address-input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.5rem;
+      border: 1px solid var(--text-light);
+      border-radius: 0.5rem;
+      color: var(--text-dark);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .address-input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 8px rgba(92, 128, 26, 0.2);
+    }
+
+    .checkout-button {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .checkout-button:hover {
+      background: var(--accent-color);
+    }
+
+    @media (max-width: 768px) {
+      .site-html {
+        font-size: 55%;
+      }
+
+      .cart-container {
+        margin-top: 10rem;
+        padding: 2rem 1rem;
+      }
+
+      .cart-title {
+        font-size: 2.8rem;
+      }
+
+      .table-header-cell,
+      .table-cell {
+        padding: 1rem;
+      }
+
+      .cart-table {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cart-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .table-header,
+      .table-row {
+        min-width: 600px;
+      }
+
+      .checkout-button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body class="site-body">
+<!-- header section -->
+<div th:replace="layout/header :: header"></div>
+<div class="cart-container">
+  <h2 class="cart-title">Your Cart</h2>
+  <a href="/customer/dashboard" class="dashboard-link">Back to Dashboard</a>
+  <div class="cart-table-wrapper">
+    <table class="cart-table">
+      <thead>
+      <tr class="table-header">
+        <th class="table-header-cell">Product</th>
+        <th class="table-header-cell">Quantity</th>
+        <th class="table-header-cell">Price</th>
+        <th class="table-header-cell">Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="entry : ${cartItems}" class="table-row">
+        <td class="table-cell" th:text="${entry.key.name}"></td>
+        <td class="table-cell" th:text="${entry.value}"></td>
+        <td class="table-cell" th:text="'$' + ${#numbers.formatDecimal(entry.key.price, 1, 2)}"></td>
+        <td class="table-cell" th:text="'$' + ${#numbers.formatDecimal(entry.key.price * entry.value, 1, 2)}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <div th:if="${cartItems.isEmpty()}" class="empty-message">Your cart is empty.</div>
+    <form th:if="${!cartItems.isEmpty()}" action="/checkout" method="post" class="checkout-form">
+      <div class="mb-4">
+        <label class="address-label">Shipping Address</label>
+        <input type="text" name="shippingAddress" th:value="${user.address}" class="address-input" required>
+      </div>
+      <button type="submit" class="checkout-button">Checkout</button>
+    </form>
+  </div>
+</div>
+<!-- footer section -->
+<div th:insert="layout/footer :: footer"></div>
+</body>
+</html>

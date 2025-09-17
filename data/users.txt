@@ -1,0 +1,11 @@
+1,Admin User,admin@gmail.com,$2a$10$xSvNEbSaXDp/OppmRYVNuuAHp5Pyk1ohKj9JpctvuG11tctGWI48S,ADMIN,/image/profile.jpg,hi,1234567897
+2,Keerthanan,user@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user2.jpg,Kaithday,0754750050
+3,Anjali Raj,anjali.raj@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user4.jpg,Chennai,9876543210
+4,Ravi Kumar,ravi.kumar@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user3.jpg,Delhi,9876543211
+5,Priya Sen,priya.sen@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user4.jpg,Mumbai,9876543212
+6,Arjun Das,arjun.das@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user2.jpg,Kolkata,9876543213
+7,Meena Iyer,meena.iyer@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user4.jpg,Bangalore,9876543214
+8,Vikram Singh,vikram.singh@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user3.jpg,Hyderabad,9876543215
+9,Nikita Shah,nikita.shah@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user4.jpg,Pune,9876543216
+10,Manoj Nair,manoj.nair@gmail.com,$2a$10$Nb8w3M.MNbjOGaxvQZj.9OD7F6m8dtg8PO8kON.yxyqvIglly6UEm,CUSTOMER,/image/user2.jpg,Cochin,9876543217
+11,Sneha Kapoor,sneha.kapoor@gmail.com,$2a$10$v4BhhXlkZbrPXQvtkHS4YOkSgzKkc.dDQL82/TXgSg5RHpQM8KdbW,CUSTOMER,/image/user4.jpg,Ahmedabad,9876543218

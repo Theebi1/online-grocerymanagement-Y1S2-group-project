@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+
+    </style>
+</head>
+<body class="site-body">
+<header class="site-header" th:fragment="header">
+    <a href="/" class="brand-logo">
+        <i class="fas fa-shopping-basket"></i> FreshMart
+    </a>
+
+    <nav class="nav-menu">
+        <a href="/">home</a>
+        <a href="/shop">shop</a>
+        <a href="/about">about</a>
+        <!-- Customer-specific -->
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'CUSTOMER'}">
+            <a href="/review">review</a>
+            <a href="/blog">blog</a>
+            <a href="/customer/orderHistory">Order</a>
+            <a href="/feedback">contact</a>
+        </th:block>
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
+            <a href="/admin/userManagement">Manage User</a>
+            <a href="/admin/productManagement">Manage Product</a>
+            <a href="/admin/orderManagement">Manage Order</a>
+            <a href="/admin/manageFeedback">Manage Feedback</a>
+        </th:block>
+    </nav>
+
+    <nav class="action-icons">
+        <!-- Cart visible only to customers -->
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'CUSTOMER'}">
+            <a id="cart-toggle" class="fas fa-shopping-cart" href="/customer/cart" title="Cart"></a>
+        </th:block>
+
+        <!-- If user is not logged in -->
+        <th:block th:if="${session.loggedInUser == null}">
+            <a href="/login" class="fas fa-user" id="login-toggle" title="Login"></a>
+        </th:block>
+
+        <!-- Admin-specific -->
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
+            <a href="/admin/dashboard" class="fas fa-user-shield" title="Admin Panel"></a>
+        </th:block>
+
+        <!-- Customer-specific -->
+        <th:block th:if="${session.loggedInUser != null and session.loggedInUser.role == 'CUSTOMER'}">
+            <a href="/customer/dashboard" class="fas fa-user" title="My Account"></a>
+        </th:block>
+
+        <!-- Show logout if user is logged in -->
+        <th:block th:if="${session.loggedInUser != null}">
+            <a href="/logout" class="fas fa-sign-out-alt" id="logout-toggle" title="Logout"></a>
+        </th:block>
+    </nav>
+</header>
+</body>
+</html>
